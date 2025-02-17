@@ -1,29 +1,36 @@
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserPick, resetUserPicks } from "../features/PickSlice"; // Update import according to your file structure
+import {
+  setUserPick,
+  resetUserPicks,
+  unsetUserPick,
+} from "../features/PickSlice"; // Update import according to your file structure
 import { RootState } from "../store";
 
-const VariableChoice: React.FC = () => {
+const PlayerSelction: React.FC = () => {
   const dispatch = useDispatch();
   const { picksVariable, userPicks } = useSelector(
     (state: RootState) => state.picksVariable
   );
 
-  
   const variables = ["desto", "finger", "caw", "cawter", "oli"];
 
-  function handleCheckbox(e: ChangeEvent<HTMLInputElement>){
-      if(e.target.checked){
-          if(userPicks.length >= 2){
-            dispatch(setUserPick(userPicks.slice(1).concat(e.target.value)));
-          }else{
-            dispatch(setUserPick([...userPicks, e.target.value]))
-          }
-      }else{
-        dispatch(setUserPick(userPicks.filter((pick) => pick !== e.target.value)));
+  function handleCheckbox(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.checked) {
+      const newValue = e.target.value;
+      let updatedPicks: string[];
+      let removedItem: string | null = null;
+  
+      if (userPicks.length >= 2) {
+        removedItem = userPicks[0];
+        updatedPicks = userPicks.slice(1).concat(newValue);
+      } else {
+        updatedPicks = [...userPicks, newValue];
       }
+      dispatch(setUserPick({ updatedPicks, removedItem }));
+    }
   }
-
+   
   return (
     <div>
       <h3>Available Picks</h3>
@@ -50,9 +57,11 @@ const VariableChoice: React.FC = () => {
         ))}
       </ul>
 
-      <button onClick={() => dispatch(resetUserPicks())}>Reset All Picks</button>
+      <button onClick={() => dispatch(resetUserPicks())}>
+        Reset All Picks
+      </button>
     </div>
   );
 };
 
-export default VariableChoice;
+export default PlayerSelction;

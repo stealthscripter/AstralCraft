@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ComputerChoice from "../components/ComputerChoice";
-import VariableChoice from "../components/VariableChoice";
+import ComputerSelection from "../components/ComputerSelection";
+import PlayerSelction from "../components/PlayerSelction";
 
 function AppLayout() {
   const [currentTab, setCurrentTab] = useState<string>("computer");
@@ -25,7 +25,7 @@ function AppLayout() {
         </ul>
       </nav>
 
-      {currentTab === "computer" ? <ComputerChoice /> : <VariableChoice />}
+      {currentTab === "computer" ? <ComputerSelection /> : <PlayerSelction />}
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { resetComputerPicks, setComputerPick } from "../features/PickSlice";
+import calculateFinger from "../utils/GameEngine";
 
-function ComputerChoice() {
+function ComputerSelection() {
   const userPicks = useSelector(
     (state: RootState) => state.picksVariable.userPicks
   );
@@ -36,6 +37,7 @@ function ComputerChoice() {
           <li>{choice}</li>
         ))}
       </div>
+      <h1>{calculateFinger(5 , 2)}</h1>
       <div>
         <button
           onClick={handleComputerChoice}
@@ -54,4 +56,4 @@ function ComputerChoice() {
   );
 }
 
-export default ComputerChoice;
+export default ComputerSelection;

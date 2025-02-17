@@ -16,13 +16,19 @@ const picksVariableSlice = createSlice({
   name: "picksVariable",
   initialState,
   reducers: {
-    setUserPick: (state, action: PayloadAction<string[]>) => {
-      const userPick = action.payload;
-      state.userPicks = userPick
-      state.picksVariable = state.picksVariable.filter(
-        (pick) => !userPick.includes(pick)
-      );
-    },
+     
+  // Reducer
+  setUserPick: (state, action: PayloadAction<{ updatedPicks: string[]; removedItem: string | null }>) => {
+    const { updatedPicks, removedItem } = action.payload;
+    state.userPicks = updatedPicks;
+
+    state.picksVariable = state.picksVariable.filter(
+      (pick) => !updatedPicks.includes(pick)
+    );
+    if (removedItem) {
+      state.picksVariable.push(removedItem);
+    }
+  },
 
     resetUserPicks: (state) => {
         state.userPicks.forEach((pick) => {
