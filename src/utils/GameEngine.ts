@@ -15,6 +15,13 @@ export default function calculateFinger(
 }
 
 
-export function calculateWinner(totalFinger: number):any {
-        return variables[totalFinger - 1]
+export function calculateWinner(totalFinger: number , userPick: string[] , computerPick: string[]):any {
+        const winnerFinger = variables[totalFinger - 1]
+        if(userPick.includes(winnerFinger)){
+            return `${winnerFinger} playe1 Won`
+        }
+        else if(computerPick.includes(winnerFinger)){
+            return `${winnerFinger} Computer Won`
+        }
+        else return `${winnerFinger}  draw`
 }

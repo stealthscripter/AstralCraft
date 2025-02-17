@@ -2,6 +2,7 @@ import { useState } from "react";
 import ComputerSelection from "../components/ComputerSelection";
 import PlayerSelction from "../components/PlayerSelction";
 import { calculateWinner } from "../utils/GameEngine";
+import GameHistory from "../components/GameHistory";
 
 function AppLayout() {
   
@@ -12,6 +13,9 @@ function AppLayout() {
         </div>
         <div className="border border-red-800">
           <ComputerSelection />
+        </div>
+        <div className="border border-red-800">
+            <GameHistory />
         </div>
     </div>
   );

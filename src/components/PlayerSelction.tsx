@@ -7,10 +7,20 @@ import {
 } from "../features/PickSlice"; // Update import according to your file structure
 import { RootState } from "../store";
 import calculateFinger, { calculateWinner } from "../utils/GameEngine";
+import { addWinner } from "../features/GameSlice";
 
 const PlayerSelction: React.FC = () => {
   
   const [playerFinger, setPlayerFinger] = useState<number>(0);
+  
+  const userPick = useSelector(
+    (state: RootState) => state.picksVariable.userPicks
+  );
+  const computerPick = useSelector(
+    (state: RootState) => state.picksVariable.computerPicks
+  );
+
+
   const dispatch = useDispatch();
   const { picksVariable, userPicks } = useSelector(
     (state: RootState) => state.picksVariable
@@ -37,8 +47,9 @@ const PlayerSelction: React.FC = () => {
   function handleWinner(){
     
     const x : number = calculateFinger(playerFinger  , 5)
-    console.log(calculateWinner(x))
     console.log(x)
+    const winner = (calculateWinner(x , userPick , computerPick))
+    dispatch(addWinner(winner))
   }
    
   return (

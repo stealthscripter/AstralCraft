@@ -13,7 +13,7 @@ const initialState: GameState = {
 };
 
 const GameSlice = createSlice({
-    name: "GameState",
+    name: "gameState",
     initialState,
     reducers: {
         addWinner: (state, action: PayloadAction<string>) => {
