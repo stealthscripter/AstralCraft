@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setUserPick,
@@ -6,8 +6,11 @@ import {
   unsetUserPick,
 } from "../features/PickSlice"; // Update import according to your file structure
 import { RootState } from "../store";
+import calculateFinger, { calculateWinner } from "../utils/GameEngine";
 
 const PlayerSelction: React.FC = () => {
+  
+  const [playerFinger, setPlayerFinger] = useState<number>(0);
   const dispatch = useDispatch();
   const { picksVariable, userPicks } = useSelector(
     (state: RootState) => state.picksVariable
@@ -29,6 +32,13 @@ const PlayerSelction: React.FC = () => {
       }
       dispatch(setUserPick({ updatedPicks, removedItem }));
     }
+  }
+
+  function handleWinner(){
+    
+    const x : number = calculateFinger(playerFinger  , 5)
+    console.log(calculateWinner(x))
+    console.log(x)
   }
    
   return (
@@ -57,9 +67,13 @@ const PlayerSelction: React.FC = () => {
         ))}
       </ul>
 
-      <button onClick={() => dispatch(resetUserPicks())}>
+      <input type="number" onChange={(e) => setPlayerFinger(Number(e.target.value))}  className="border border-red-700 outline-none"  />
+      <button onClick={handleWinner} className="border bg-amber-300 text-white p-5">Start</button>
+      <button className="border border-amber-200 py-2 px-2 cursor-pointer" onClick={() => dispatch(resetUserPicks())}>
         Reset All Picks
       </button>
+      
+      
     </div>
   );
 };

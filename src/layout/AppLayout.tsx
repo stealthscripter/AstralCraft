@@ -1,31 +1,18 @@
 import { useState } from "react";
 import ComputerSelection from "../components/ComputerSelection";
 import PlayerSelction from "../components/PlayerSelction";
+import { calculateWinner } from "../utils/GameEngine";
 
 function AppLayout() {
-  const [currentTab, setCurrentTab] = useState<string>("computer");
+  
   return (
-    <div className="border-amber-500 h-96 p-10">
-      <nav>
-        <ul className="cursor-pointer text-3xl">
-          <li className={`${currentTab === 'computer' ? "bg-red-300" : ""}`}
-            onClick={() => {
-              setCurrentTab("computer");
-            }}
-          >
-            Computer
-          </li>
-          <li className={`${currentTab === 'user' ? "bg-red-300" : ""}`}
-            onClick={() => {
-              setCurrentTab("user");
-            }}
-          >
-            User
-          </li>
-        </ul>
-      </nav>
-
-      {currentTab === "computer" ? <ComputerSelection /> : <PlayerSelction />}
+    <div className="border-3 border-amber-500 min-h-screen p-10 grid grid-cols-2 gap-x-5">
+        <div className="border border-red-800">
+            <PlayerSelction />
+        </div>
+        <div className="border border-red-800">
+          <ComputerSelection />
+        </div>
     </div>
   );
 }

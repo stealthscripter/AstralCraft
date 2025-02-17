@@ -17,6 +17,7 @@ function ComputerSelection() {
   function handleComputerChoice(): void {
     dispatch(setComputerPick())
   }
+
   return (
     <div className="flex space-x-4">
       <div>
@@ -51,7 +52,9 @@ function ComputerSelection() {
         >
           Reset Choice
         </button>
+        
       </div>
+
     </div>
   );
 }

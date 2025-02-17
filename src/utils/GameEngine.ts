@@ -1,3 +1,10 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+
+const variables = ["desto", "finger", "caw", "cawter", "oli"];
+const userPick = ["desto" , "finger"]
+const computerPick = ["caw" , "cawter"]
+
 export default function calculateFinger(
   playerFinger: number,
   computerFinger: number
@@ -8,7 +15,6 @@ export default function calculateFinger(
 }
 
 
-
-export function calculateWinner(userPicks: string[] , computerPicks: string[] , totalFinger: number):string[] {
-        return ["hello"]
+export function calculateWinner(totalFinger: number):any {
+        return variables[totalFinger - 1]
 }
