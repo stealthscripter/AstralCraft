@@ -16,17 +16,29 @@ const picksVariableSlice = createSlice({
   name: "picksVariable",
   initialState,
   reducers: {
-    // Handle user's pick and update available picks
-    setUserPick: (state, action: PayloadAction<string>) => {
+    setUserPick: (state, action: PayloadAction<string[]>) => {
       const userPick = action.payload;
-      // Remove the selected pick from available picks
+      state.userPicks = userPick
       state.picksVariable = state.picksVariable.filter(
-        (pick) => pick !== userPick
+        (pick) => !userPick.includes(pick)
       );
-      // Add the selected pick to userPicks
-      state.userPicks.push(userPick);
     },
 
+    resetUserPicks: (state) => {
+        state.userPicks.forEach((pick) => {
+          state.picksVariable.push(pick); // Corrected `push` method usage
+        });
+  
+        // Clear the computer picks
+        state.userPicks = [];
+      },
+
+    // Handle unchecking the user's pick
+    unsetUserPick: (state, action: PayloadAction<any>) => {
+      const userPick = action.payload;
+      state.userPicks = state.userPicks.filter((pick) => pick !== userPick);
+      state.picksVariable.push(userPick); // Add back to available picks
+    },
     // Handle computer's pick and update available picks
     setComputerPick: (state) => {
       // Ensure at least two picks remain
@@ -57,16 +69,16 @@ const picksVariableSlice = createSlice({
     },
     resetComputerPicks: (state) => {
       state.computerPicks.forEach((pick) => {
-        state.picksVariable.push(pick);  // Corrected `push` method usage
+        state.picksVariable.push(pick); // Corrected `push` method usage
       });
-    
+
       // Clear the computer picks
       state.computerPicks = [];
     },
   },
 });
 
-export const { setUserPick, setComputerPick, resetPicks, resetComputerPicks } =
+export const { setUserPick, setComputerPick, resetPicks, resetComputerPicks , unsetUserPick , resetUserPicks } =
   picksVariableSlice.actions;
 
 export default picksVariableSlice.reducer;
