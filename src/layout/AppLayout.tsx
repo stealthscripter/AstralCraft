@@ -1,7 +1,5 @@
-import { useState } from "react";
 import ComputerSelection from "../components/ComputerSelection";
 import PlayerSelction from "../components/PlayerSelction";
-import { calculateWinner } from "../utils/GameEngine";
 import GameHistory from "../components/GameHistory";
 
 function AppLayout() {

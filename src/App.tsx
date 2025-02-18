@@ -1,11 +1,9 @@
-
-import AppLayout from "./layout/AppLayout";
+import FutureLayout from "./layout/FutureLayout";
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <>
-      <AppLayout />
-    </>
+    <FutureLayout />
   );
 }
 
