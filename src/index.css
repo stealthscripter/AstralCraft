@@ -3,6 +3,9 @@
 @theme{
     --font-2P: "Press Start 2P", "serif";
     --font-gluten: "Gluten" , "serif";
+    --font-tanker: "Tanker" ,"serif";
 }
-body{
+*{ 
+    box-sizing: border-box;
+ 
 }

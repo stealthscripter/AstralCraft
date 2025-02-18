@@ -4,12 +4,14 @@ interface GameState {
     history: string[];
     currentWinner: string;
     whoStart: string;
+    playNow: boolean
 }
 
 const initialState: GameState = {
     history: [],
     currentWinner: "",
-    whoStart: ""
+    whoStart: "",
+    playNow: false
 };
 
 const GameSlice = createSlice({
@@ -27,10 +29,13 @@ const GameSlice = createSlice({
         },
         setWhoStart: (state, action: PayloadAction<string>) => {
             state.whoStart = action.payload;
-        }
+        },
+        setPlayNow: (state, action: PayloadAction<boolean>) => {
+            state.playNow = action.payload;
+        },
     }
 });
 
-export const { addWinner, resetGame, setWhoStart } = GameSlice.actions;
+export const { addWinner, resetGame, setWhoStart , setPlayNow } = GameSlice.actions;
 
 export default GameSlice.reducer;

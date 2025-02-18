@@ -1,9 +1,15 @@
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
 import FutureLayout from "./layout/FutureLayout";
-import Home from "./pages/Home";
+import GameLayout from "./layout/GameLayout";
 
 function App() {
+  const playNow = useSelector((state: RootState) => state.gameState.playNow);
+
   return (
-    <FutureLayout />
+    <>
+      {!playNow ? <GameLayout /> : <FutureLayout />}
+    </>
   );
 }
 
