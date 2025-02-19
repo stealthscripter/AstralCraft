@@ -41,11 +41,15 @@ function PlayerSelction() {
       dispatch(setUserPick({ updatedPicks, removedItem }));
     }
   }
-  console.log(userPicks)
-  console.log(picksVariable)
+  function handleReady(){
+      if(userPicks.length < 2){
+        console.log("not eligiable")
+        return
+      }
+      console.log(userPicks)
+  }
   return (
-    <div className="border border-teal-500 col-span-6 font-2P">
-      <section className="border border-teal-500 grid grid-cols-12 gap-x-5 gap-y-5">
+      <section className="grid grid-cols-12 gap-x-5 gap-y-5">
         <section className="border border-amber-800 col-span-12 py-5 flex justify-center">
           <h1 className="text-xl">Player 1 </h1>
         </section>
@@ -83,7 +87,6 @@ function PlayerSelction() {
           Reset Picks
         </button>
       </section>
-    </div>
   );
 }
 

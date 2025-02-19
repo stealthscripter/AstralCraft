@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { resetComputerPicks, setComputerPick } from "../features/PickSlice";
-import { useState, useEffect } from "react"; // Import useEffect and useState
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react"; // Import useEffect and useState
 
 const gridSchema = [
   { picks: "desto", inputGrid: "col-start-3" },
@@ -11,7 +11,7 @@ const gridSchema = [
   { picks: "oli", inputGrid: "col-start-8 " },
 ];
 
-function ComputerSelection() {
+const ComputerSelection = forwardRef((props, ref) => {
   const dispatch = useDispatch<AppDispatch>();
   const userPicks = useSelector(
     (state: RootState) => state.picksVariable.userPicks
@@ -22,34 +22,33 @@ function ComputerSelection() {
   const availablePicks = useSelector(
     (state: RootState) => state.picksVariable.picksVariable
   );
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [tempPick, setTempPick] = useState<string | null>(null);
 
-  const [isAnimating, setIsAnimating] = useState(false); // State to track animation
-  const [tempPick, setTempPick] = useState<string | null>(null); // Temporary pick during animation
-
-  function handleComputerChoice(): void {
-    setIsAnimating(true); // Start animation
+  const handleComputerChoice = () => {
+    setIsAnimating(true);
     let animationCount = 0;
-    const animationDuration = 2000; // 2 seconds of animation
-    const intervalTime = 200; // Switch picks every 200ms
-
+    const animationDuration = 2000;
+    const intervalTime = 200;
     const animationInterval = setInterval(() => {
-      // Randomly select a temporary pick during animation
       const randomIndex = Math.floor(Math.random() * availablePicks.length);
       setTempPick(availablePicks[randomIndex]);
       animationCount += intervalTime;
-
-      // Stop animation after the duration
       if (animationCount >= animationDuration) {
         clearInterval(animationInterval);
-        setIsAnimating(false); // Stop animation
+        setIsAnimating(false);
         dispatch(setComputerPick()); // Dispatch final pick
-        setTempPick(null); // Reset temporary pick
+        setTempPick(null);
       }
     }, intervalTime);
-  }
+  };
+
+  // Expose the handleComputerChoice function to the parent via ref
+  useImperativeHandle(ref, () => ({
+    handleComputerChoice,
+  }));
 
   return (
-    <div className="border border-teal-500 col-span-6 font-2P">
       <section className="border border-teal-500 grid grid-cols-12 gap-x-5 gap-y-5">
         <section className="border border-amber-800 col-span-12 py-5 flex justify-center">
           <h1 className="text-xl">Player 2 | Computer </h1>
@@ -81,24 +80,9 @@ function ComputerSelection() {
             </label>
           </section>
         ))}
-
-        <button
-          className="border border-amber-700 col-start-3 col-span-3 py-2 mt-10"
-          onClick={() => dispatch(resetComputerPicks())}
-        >
-          Reset Picks
-        </button>
-
-        <button
-          className="border border-amber-700 col-start-6 col-span-3 py-2 mt-10"
-          onClick={handleComputerChoice}
-          disabled={isAnimating || computerPicks.length > 0} // Disable button during animation
-        >
-          {isAnimating ? "Choosing..." : "Make Computer Pick"}
-        </button>
       </section>
-    </div>
+
   );
-}
+})
 
 export default ComputerSelection;
