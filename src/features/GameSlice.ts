@@ -35,12 +35,12 @@ const GameSlice = createSlice({
         setPlayNow: (state, action: PayloadAction<boolean>) => {
             state.playNow = action.payload;
         },
-        setStarted: (state, action: PayloadAction<boolean>) => {
-            state.started = action.payload
+        setStarted: (state) => {
+            state.started = true
         }
     }
 });
 
-export const { addWinner, resetGame, setWhoStart , setPlayNow } = GameSlice.actions;
+export const { addWinner, resetGame, setWhoStart , setPlayNow , setStarted } = GameSlice.actions;
 
 export default GameSlice.reducer;

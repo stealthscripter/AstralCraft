@@ -41,13 +41,6 @@ function PlayerSelction() {
       dispatch(setUserPick({ updatedPicks, removedItem }));
     }
   }
-  function handleReady(){
-      if(userPicks.length < 2){
-        console.log("not eligiable")
-        return
-      }
-      console.log(userPicks)
-  }
   return (
       <section className="grid grid-cols-12 gap-x-5 gap-y-5">
         <section className="border border-amber-800 col-span-12 py-5 flex justify-center">
