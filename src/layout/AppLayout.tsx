@@ -1,5 +1,5 @@
-import ComputerSelection from "../components/ComputerSelection";
-import PlayerSelction from "../components/PlayerSelction";
+import ComputerSelection from "../components/selection/ComputerSelection";
+import PlayerSelction from "../components/selection/PlayerSelction";
 import GameHistory from "../components/GameHistory";
 
 function AppLayout() {

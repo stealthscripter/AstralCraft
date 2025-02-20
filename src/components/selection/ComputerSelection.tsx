@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store";
-import { resetComputerPicks, setComputerPick } from "../features/PickSlice";
+import { AppDispatch, RootState } from "../../store";
+import { resetComputerPicks, setComputerPick } from "../../features/PickSlice";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react"; // Import useEffect and useState
 
 const gridSchema = [

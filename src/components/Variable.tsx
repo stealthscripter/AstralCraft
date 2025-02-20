@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { addWinner } from "../features/GameSlice";
 import { resetUserPicks, setUserPick } from "../features/PickSlice";
 import calculateFinger, { calculateWinner } from "../utils/GameEngine";
-import PlayerSelction from "./PlayerSelction";
+import PlayerSelction from "./selection/PlayerSelction";
 import { RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 

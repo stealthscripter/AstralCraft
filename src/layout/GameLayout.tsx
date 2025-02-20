@@ -1,10 +1,11 @@
 import { useRef } from "react";
-import ComputerSelection from "../components/ComputerSelection";
-import PlayerSelction from "../components/PlayerSelction";
+import ComputerSelection from "../components/selection/ComputerSelection";
+import PlayerSelction from "../components/selection/PlayerSelction";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { setStarted } from "../features/GameSlice";
-import PlayerCore from "../components/PlayerCore";
+import PlayerCore from "../components/core/PlayerCore";
+import ComputerCore from "../components/core/ComputerCore";
 interface ComputerSelectionMethods {
   handleComputerChoice: () => void;
 }
@@ -58,7 +59,23 @@ function GameLayout() {
           </section>
         </>
       ) : (
-        <PlayerCore />
+        <>
+          <section className="border border-amber-500 col-span-3">
+            <PlayerCore />
+          </section>
+          <section className="border border-amber-500 flex justify-center">
+            <button
+              className="border border-amber-700 col-start-3 col-span-3 py-2 mt-10"
+
+            >
+              Start the Game
+            </button>
+          </section>
+          <section className="border border-amber-500 col-span-3">
+            {/* Pass the ref to the ComputerSelection component */}
+            <ComputerCore/>
+          </section>
+        </>
       )}
     </div>
   );

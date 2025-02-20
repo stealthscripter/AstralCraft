@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
-import { resetPicks, resetUserPicks, setUserPick } from "../features/PickSlice";
+import { RootState } from "../../store";
+import { resetPicks, resetUserPicks, setUserPick } from "../../features/PickSlice";
 
 const gridSchema = [
   { picks: "desto", inputGrid: "col-start-3" },
