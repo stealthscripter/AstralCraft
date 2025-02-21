@@ -12,7 +12,51 @@ const allFingers = [
   "rc-finger-4",
   "rc-finger-thumb",
 ];
+const leftFingers = [
+  {
+      id: "lc-finger-1",
+      styles: "mt-28",
+  },
+  {
+      id: "lc-finger-2",
+      styles: "mt-10",
+  },
+  {
+      id: "lc-finger-3",
+      styles: "",
+  },
+  {
+      id: "lc-finger-4",
+      styles: "mt-10",
+  },
+  {
+      id: "lc-finger-thumb",
+      styles: "mt-40 -mb-16 rotate-[0.5rad]",
+  },
+]
 
+const rightFingers = [
+  {
+      id: "rc-finger-1",
+      styles: "mt-28",
+  },
+  {
+      id: "rc-finger-2",
+      styles: "mt-10",
+  },
+  {
+      id: "rc-finger-3",
+      styles: "",
+  },
+  {
+      id: "rc-finger-4",
+      styles: "mt-10",
+  },
+  {
+      id: "rc-finger-thumb",
+      styles: "mt-40 -mb-16 rotate-[0.5rad]",
+  },
+]
 function ComputerCore() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [tempFinger, setTempFinger] = useState<string | null>(null);
@@ -63,228 +107,58 @@ function ComputerCore() {
           {/* Left Hand */}
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-x-2">
             {/* Finger 1 */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-28 w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("lc-finger-1") || tempFinger === "lc-finger-1"
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="lc-finger-1"
-                value="lc-finger-1"
-                className="peer hidden"
-                onChange={handleCheckbox}
-                disabled={isAnimating} // Disable during animation
-              />
-              <label
-                htmlFor="lc-finger-1"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Finger 2 */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-10 w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("lc-finger-2") || tempFinger === "lc-finger-2"
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="lc-finger-2"
-                value="lc-finger-2"
-                className="peer hidden"
-                onChange={handleCheckbox}
-                disabled={isAnimating}
-              />
-              <label
-                htmlFor="lc-finger-2"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Finger 3 */}
-            <div
-              className={`row-span-4 rounded-t-4xl w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("lc-finger-3") || tempFinger === "lc-finger-3"
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="lc-finger-3"
-                value="lc-finger-3"
-                className="peer hidden"
-                onChange={handleCheckbox}
-                disabled={isAnimating}
-              />
-              <label
-                htmlFor="lc-finger-3"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Finger 4 */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-10 w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("lc-finger-4") || tempFinger === "lc-finger-4"
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="lc-finger-4"
-                value="lc-finger-4"
-                className="peer hidden"
-                onChange={handleCheckbox}
-                disabled={isAnimating}
-              />
-              <label
-                htmlFor="lc-finger-4"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Thumb */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-40 -mb-16 rotate-[0.5rad] w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("lc-finger-thumb") || tempFinger === "lc-finger-thumb"
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="lc-finger-thumb"
-                value="lc-finger-thumb"
-                className="peer hidden"
-                onChange={handleCheckbox}
-                disabled={isAnimating}
-              />
-              <label
-                htmlFor="lc-finger-thumb"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Palm */}
+            {leftFingers.map((finger) => (
+              <div
+                key={finger.id}
+                className={`row-span-4 rounded-t-4xl w-full relative transition-colors duration-300 ${
+                  selectedFingers.includes(finger.id) || tempFinger === finger.id
+                    ? "bg-red-500"
+                    : "bg-yellow-100"
+                } ${finger.styles}`}
+              >
+                <input
+                  type="checkbox"
+                  id={finger.id}
+                  value={finger.id}
+                  className="peer hidden"
+                  disabled={isAnimating}
+                />
+                <label
+                  htmlFor={finger.id}
+                  className="h-full w-full block cursor-pointer"
+                ></label>
+              </div>
+            ))}
             <div className="bg-yellow-100 col-span-5 z-20 me-10"></div>
-          </div>
+          </div>   
         </section>
+
+
         <section className="h-full">
           {/* Right Hand */}
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-x-2 scale-x-[-1]">
-            {/* Finger 1 */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-28 w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("rc-finger-1") || tempFinger === "rc-finger-1"
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="rc-finger-1"
-                value="rc-finger-1"
-                className="peer hidden"
-                onChange={handleCheckbox}
-                disabled={isAnimating}
-              />
-              <label
-                htmlFor="rc-finger-1"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-            {/* Finger 2 */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-10 w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("rc-finger-2")
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="rc-finger-2"
-                value="rc-finger-2"
-                className="peer hidden"
-                onChange={handleCheckbox}
-              />
-              <label
-                htmlFor="rc-finger-2"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Finger 3 */}
-            <div
-              className={`row-span-4 rounded-t-4xl w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("rc-finger-3")
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="rc-finger-3"
-                value="rc-finger-3"
-                className="peer hidden"
-                onChange={handleCheckbox}
-              />
-              <label
-                htmlFor="rc-finger-3"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Finger 4 */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-10 w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("rc-finger-4")
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="rc-finger-4"
-                value="rc-finger-4"
-                className="peer hidden"
-                onChange={handleCheckbox}
-              />
-              <label
-                htmlFor="rc-finger-4"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Thumb */}
-            <div
-              className={`row-span-4 rounded-t-4xl mt-40 -mb-16 rotate-[0.5rad] w-full relative transition-colors duration-300 ${
-                selectedFingers.includes("rc-finger-thumb")
-                  ? "bg-red-500"
-                  : "bg-yellow-100"
-              }`}
-            >
-              <input
-                type="checkbox"
-                id="rc-finger-thumb"
-                value="rc-finger-thumb"
-                className="peer hidden"
-                onChange={handleCheckbox}
-              />
-              <label
-                htmlFor="rc-finger-thumb"
-                className="h-full w-full block cursor-pointer"
-              ></label>
-            </div>
-
-            {/* Palm */}
+          {rightFingers.map((finger) => (
+              <div
+                key={finger.id}
+                className={`row-span-4 rounded-t-4xl w-full relative transition-colors duration-300 ${
+                  selectedFingers.includes(finger.id) || tempFinger === finger.id
+                    ? "bg-red-500"
+                    : "bg-yellow-100"
+                } ${finger.styles}`}
+              >
+                <input
+                  type="checkbox"
+                  id={finger.id}
+                  value={finger.id}
+                  className="peer hidden"
+                  disabled={isAnimating}
+                />
+                <label
+                  htmlFor={finger.id}
+                  className="h-full w-full block cursor-pointer"
+                ></label>
+              </div>
+            ))}
             <div className="bg-yellow-100 col-span-5 z-20 me-10"></div>
           </div>
         </section>
