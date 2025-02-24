@@ -17,49 +17,49 @@ const allFingers = [
 ];
 const leftFingers = [
   {
-      id: "l-finger-1",
-      styles: "mt-28",
+    id: "l-finger-1",
+    styles: "mt-28",
   },
   {
-      id: "l-finger-2",
-      styles: "mt-10",
+    id: "l-finger-2",
+    styles: "mt-10",
   },
   {
-      id: "l-finger-3",
-      styles: "",
+    id: "l-finger-3",
+    styles: "",
   },
   {
-      id: "l-finger-4",
-      styles: "mt-10",
+    id: "l-finger-4",
+    styles: "mt-10",
   },
   {
-      id: "l-finger-thumb",
-      styles: "mt-40 -mb-16 rotate-[0.5rad]",
+    id: "l-finger-thumb",
+    styles: "mt-52 -mb-16 rotate-[0.5rad]",
   },
-]
+];
 
 const rightFingers = [
   {
-      id: "r-finger-1",
-      styles: "mt-28",
+    id: "r-finger-1",
+    styles: "mt-28",
   },
   {
-      id: "r-finger-2",
-      styles: "mt-10",
+    id: "r-finger-2",
+    styles: "mt-10",
   },
   {
-      id: "r-finger-3",
-      styles: "",
+    id: "r-finger-3",
+    styles: "",
   },
   {
-      id: "r-finger-4",
-      styles: "mt-10",
+    id: "r-finger-4",
+    styles: "mt-10",
   },
   {
-      id: "r-finger-thumb",
-      styles: "mt-40 -mb-16 rotate-[0.5rad]",
+    id: "r-finger-thumb",
+    styles: "mt-52 -mb-16 rotate-[0.5rad]",
   },
-]
+];
 
 interface PlayerCoreProps {
   selectedFingers: string[];
@@ -82,25 +82,29 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
     );
   }
 
-  function handleStart(){
-    console.log("Start the game")
-    dispatch(setPlayerFinger(selectedFingers))
+  function handleStart() {
+    console.log("Start the game");
+    dispatch(setPlayerFinger(selectedFingers));
   }
   return (
     <section className="grid grid-cols-12 gap-x-5 gap-y-5">
-      <section className="border border-amber-800 py-5 col-span-12 flex justify-center">
+      <section className="py-5 col-span-12 flex justify-center">
         <h1>How Many Fingers do you want to throw? </h1>
       </section>
-      <section className="border border-amber-800 py-5 h-96 col-span-12 grid grid-cols-2 gap-x-18">
-        <section>
+      <section className="py-5 h-96 col-span-12 grid grid-cols-2 gap-x-12 px-16">
+        <section className="px-5">
           {/* Left Hand */}
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-x-2">
             {/* Finger 1 */}
             {leftFingers.map((finger) => (
               <div
                 key={finger.id}
-                className={`row-span-4 rounded-t-4xl ${finger.styles} w-full relative transition-colors duration-300 ${
-                  selectedFingers.includes(finger.id) ? "bg-red-500" : "bg-yellow-100"
+                className={`row-span-4 rounded-t-4xl ${
+                  finger.styles
+                } w-full relative transition-colors duration-300 ${
+                  selectedFingers.includes(finger.id)
+                    ? "bg-red-800"
+                    : "bg-yellow-100"
                 }`}
               >
                 <input
@@ -121,14 +125,17 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
             <div className="bg-yellow-100 col-span-5 z-20 me-10"></div>
           </div>
         </section>
-        <section className="h-full">
+
+        <section className="px-5">
           {/* Right Hand */}
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-x-2 scale-x-[-1]">
-          {rightFingers.map((finger) => (
+            {rightFingers.map((finger) => (
               <div
                 key={finger.id}
-                className={`row-span-4 rounded-t-4xl ${finger.styles} w-full relative transition-colors duration-300 ${
-                  selectedFingers.includes(finger.id) ? "bg-red-500" : "bg-yellow-100"
+                className={`row-span-4 rounded-t-4xl ${
+                  finger.styles
+                } w-full relative transition-colors duration-300 ${
+                  selectedFingers.includes(finger.id) ? "bg-red-800" : "bg-yellow-100"
                 }`}
               >
                 <input
@@ -144,12 +151,11 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
                 ></label>
               </div>
             ))}
-             <div className="bg-yellow-100 col-span-5 z-20 me-10"></div>
+            <div className="bg-yellow-100 col-span-5 z-20 me-10"></div>
           </div>
         </section>
       </section>
 
-      <button className="border border-amber-400 p-4 col-span-3" onClick={handleStart}>Start Again</button>
     </section>
   );
 }

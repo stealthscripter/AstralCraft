@@ -1,14 +1,18 @@
 import { ChangeEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { resetPicks, resetUserPicks, setUserPick } from "../../features/PickSlice";
+import {
+  resetPicks,
+  resetUserPicks,
+  setUserPick,
+} from "../../features/PickSlice";
 
 const gridSchema = [
-  { picks: "desto", inputGrid: "col-start-3" },
-  { picks: "finger", inputGrid: "col-start-6" },
-  { picks: "caw", inputGrid: "col-start-9 " },
-  { picks: "cawter", inputGrid: "col-start-4 " },
-  { picks: "oli", inputGrid: "col-start-8 " },
+  { picks: "desto" },
+  { picks: "finger" },
+  { picks: "caw" },
+  { picks: "cawter" },
+  { picks: "oli" },
 ];
 
 function PlayerSelction() {
@@ -42,18 +46,16 @@ function PlayerSelction() {
     }
   }
   return (
-      <section className="grid grid-cols-12 gap-x-5 gap-y-5">
-        <section className="border border-amber-800 col-span-12 py-5 flex justify-center">
-          <h1 className="text-xl">Player 1 </h1>
-        </section>
-        <section className="border border-amber-800 py-7 col-span-12 flex justify-center">
-          <h1 className="text-xl">Game Variable </h1>
-        </section>
+    <section className="grid grid-cols-12 gap-x-5 gap-y-5 ">
+      <section className="col-span-12 py-5 flex justify-center">
+        <h1 className="text-xl">Player 1 | You</h1>
+      </section>
+      <section className="mb-6 col-span-12 flex flex-col space-y-2 text-center">
+        <h1 className="text-xl">Game Variable </h1>
+      </section>
+      <section className="col-start-2 col-span-10 gap-x-10 grid grid-cols-3 gap-y-7">
         {gridSchema.map((pick) => (
-          <section
-            key={pick.picks}
-            className={`border border-amber-800 ${pick.inputGrid} col-span-2 flex justify-center`}
-          >
+          <div key={pick.picks} className="border border-amber-700">
             <input
               type="checkbox"
               id={pick.picks}
@@ -65,21 +67,32 @@ function PlayerSelction() {
             />
             <label
               htmlFor={pick.picks}
-              className={`select-none py-10 cursor-pointer transition-colors duration-200 ease-in-out w-full
-               peer-checked:bg-red-300 peer-checked:text-gray-900 peer-checked:border-black-200 flex items-center justify-center ${!picksVariable.includes(pick.picks) ? "bg-amber-400" : ""}`}
+              className={`select-none py-10 cursor-pointer transition-colors duration-200 ease-in-out w-full text-sm tracking-widest
+               peer-checked:bg-red-800 peer-checked:text-white flex items-center justify-center ${
+                 !picksVariable.includes(pick.picks)
+                   ? "bg-blue-800 text-white"
+                   : ""
+               }`}
             >
               {pick.picks}
             </label>
-          </section>
+          </div>
         ))}
 
+        {
+        userPick.length >= 1 &&
         <button
-          className="border border-amber-700 col-start-3 col-span-3 py-2 mt-10"
-          onClick={() => dispatch(resetUserPicks())}
-        >
-          Reset Picks
-        </button>
+            className="border-1 cursor-pointer py-2 text-base px-10 leading-8"
+            onClick={() => dispatch(resetUserPicks())}
+          >
+            Reset Picks
+          </button>
+        }
       </section>
+      <section className="col-start-2 col-span-12 text-sm leading-8">
+          <h1>!You Have to choose at most 2 variable to start game</h1>
+      </section>
+    </section>
   );
 }
 

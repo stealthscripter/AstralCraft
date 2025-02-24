@@ -34,7 +34,7 @@ const leftFingers = [
   },
   {
       id: "lc-finger-thumb",
-      styles: "mt-40 -mb-16 rotate-[0.5rad]",
+      styles: "mt-52 -mb-16 rotate-[0.5rad]",
   },
 ]
 
@@ -57,7 +57,7 @@ const rightFingers = [
   },
   {
       id: "rc-finger-thumb",
-      styles: "mt-40 -mb-16 rotate-[0.5rad]",
+      styles: "mt-52 -mb-16 rotate-[0.5rad]",
   },
 ]
 interface PlayerCoreProps {
@@ -111,11 +111,11 @@ const ComputerCore = React.forwardRef(
 
   return (
     <section className="grid grid-cols-12 gap-x-5 gap-y-5">
-      <section className="border border-amber-800 py-5 col-span-12 flex justify-center">
-        <h1>How Many Fingers do you want to throw? </h1>
+      <section className="py-5 col-span-12 flex justify-center">
+        <h1 className="text-sm">Computer Throw Automatically Using (Flux Model 2.0) </h1>
       </section>
-      <section className="border border-amber-800 py-5 h-96 col-span-12 grid grid-cols-2 gap-x-18">
-        <section>
+      <section className="py-5 h-96 col-span-12 grid grid-cols-2 gap-x-12 px-16">
+        <section className="px-5">
           {/* Left Hand */}
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-x-2">
             {/* Finger 1 */}
@@ -124,7 +124,7 @@ const ComputerCore = React.forwardRef(
                 key={finger.id}
                 className={`row-span-4 rounded-t-4xl w-full relative transition-colors duration-300 ${
                   selectedFingers.includes(finger.id) || tempFinger === finger.id
-                    ? "bg-red-500"
+                    ? "bg-blue-800"
                     : "bg-yellow-100"
                 } ${finger.styles}`}
               >
@@ -146,7 +146,7 @@ const ComputerCore = React.forwardRef(
         </section>
 
 
-        <section className="h-full">
+        <section className="px-5">
           {/* Right Hand */}
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-x-2 scale-x-[-1]">
           {rightFingers.map((finger) => (
@@ -154,7 +154,7 @@ const ComputerCore = React.forwardRef(
                 key={finger.id}
                 className={`row-span-4 rounded-t-4xl w-full relative transition-colors duration-300 ${
                   selectedFingers.includes(finger.id) || tempFinger === finger.id
-                    ? "bg-red-500"
+                    ? "bg-blue-800"
                     : "bg-yellow-100"
                 } ${finger.styles}`}
               >
@@ -175,19 +175,6 @@ const ComputerCore = React.forwardRef(
           </div>
         </section>
       </section>
-
-      <button
-        className="border border-amber-400 p-4 col-span-3"
-        onClick={handleComputerStart}
-      >
-        Start Animation
-      </button>
-      <button
-        className="border border-amber-400 p-4 col-span-3"
-        onClick={() => {dispatch(setComputerFinger(selectedFingers));}}
-      >
-        Start Game
-      </button>
     </section>
   );
 }

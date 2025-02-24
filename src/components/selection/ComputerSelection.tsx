@@ -49,40 +49,43 @@ const ComputerSelection = forwardRef((props, ref) => {
   }));
 
   return (
-      <section className="border border-teal-500 grid grid-cols-12 gap-x-5 gap-y-5">
-        <section className="border border-amber-800 col-span-12 py-5 flex justify-center">
-          <h1 className="text-xl">Player 2 | Computer </h1>
-        </section>
-        <section className="border border-amber-800 py-7 col-span-12 flex justify-center">
-          <h1 className="text-xl">Game Variable </h1>
-        </section>
+    <section className="grid grid-cols-12 gap-x-5 gap-y-5">
+      <section className="col-span-12 py-5 flex justify-center">
+        <h1 className="text-xl">Player 2 | Computer </h1>
+      </section>
+      <section className="mb-6 col-span-12 flex justify-center">
+        <h1 className="text-xl">Game Variable </h1>
+      </section>
 
+      <section className="col-start-2 col-span-10 gap-x-10 grid grid-cols-3 gap-y-7">
         {gridSchema.map((pick) => (
-          <section
-            key={pick.picks}
-            className={`border border-amber-800 ${pick.inputGrid} col-span-2 flex justify-center`}
-          >
+          <div key={pick.picks} className="border border-amber-700">
             <input
               type="checkbox"
               id={pick.picks}
               value={pick.picks}
               disabled
-              checked={computerPicks.includes(pick.picks) || (isAnimating && tempPick === pick.picks)}
+              checked={
+                computerPicks.includes(pick.picks) ||
+                (isAnimating && tempPick === pick.picks)
+              }
               className="peer hidden"
             />
             <label
               htmlFor={pick.picks}
               onClick={(e) => e.preventDefault()}
               className={`select-none py-10 cursor-pointer transition-colors duration-200 ease-in-out w-full
-               peer-checked:bg-red-300 peer-checked:text-gray-900 peer-checked:border-black-200 flex items-center justify-center ${!availablePicks.includes(pick.picks) ? "bg-amber-400" : ""}`}
+               peer-checked:bg-blue-800 peer-checked:text-white flex items-center justify-center ${
+                 !availablePicks.includes(pick.picks) ? "bg-red-800 text-white" : ""
+               }`}
             >
               {pick.picks}
             </label>
-          </section>
+          </div>
         ))}
       </section>
-
+    </section>
   );
-})
+});
 
 export default ComputerSelection;
