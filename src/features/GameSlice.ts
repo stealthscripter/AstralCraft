@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { s } from "framer-motion/client";
 
 interface GameState {
     history: string[];
@@ -6,6 +7,8 @@ interface GameState {
     whoStart: string;
     playNow: boolean;
     started: boolean;
+    playerFinger: string[];
+    computerFinger: string[];
 }
 
 const initialState: GameState = {
@@ -14,6 +17,8 @@ const initialState: GameState = {
     whoStart: "",
     playNow: false,
     started: false,
+    computerFinger: [],
+    playerFinger: []
 };
 
 const GameSlice = createSlice({
@@ -37,10 +42,16 @@ const GameSlice = createSlice({
         },
         setStarted: (state) => {
             state.started = true
+        },
+        setPlayerFinger: (state, action: PayloadAction<string[]>) => {
+            state.playerFinger = action.payload;
+        },
+        setComputerFinger: (state, action: PayloadAction<string[]>) => {
+            state.computerFinger = action.payload;
         }
     }
 });
 
-export const { addWinner, resetGame, setWhoStart , setPlayNow , setStarted } = GameSlice.actions;
+export const { addWinner, resetGame, setWhoStart , setPlayNow , setStarted , setPlayerFinger , setComputerFinger } = GameSlice.actions;
 
 export default GameSlice.reducer;

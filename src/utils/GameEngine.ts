@@ -5,8 +5,8 @@ const variables = ["desto", "finger", "caw", "cawter", "oli"];
 
 export default function calculateFinger(
   playerFinger: number,
+  computerFinger: number,
 ): number {
-  const computerFinger = Math.floor(Math.random() * 11)
   return (playerFinger + computerFinger) % 5 === 0
     ? 5
     : (computerFinger + playerFinger) % 5;

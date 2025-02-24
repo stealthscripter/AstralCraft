@@ -1,4 +1,7 @@
-import { ChangeEvent, useState } from "react";
+import { u } from "framer-motion/client";
+import { ChangeEvent, useImperativeHandle, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setComputerFinger } from "../../features/GameSlice";
 
 const allFingers = [
   "lc-finger-1",
@@ -57,18 +60,18 @@ const rightFingers = [
       styles: "mt-40 -mb-16 rotate-[0.5rad]",
   },
 ]
-function ComputerCore() {
+interface PlayerCoreProps {
+  selectedFingers: string[];
+  setSelectedFingers: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+function ComputerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [tempFinger, setTempFinger] = useState<string | null>(null);
-  const [selectedFingers, setSelectedFingers] = useState<string[]>([]);
-
-  const handleCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    setSelectedFingers((prev) =>
-      checked ? [...prev, value] : prev.filter((finger) => finger !== value)
-    );
-  };
+  const dispatch = useDispatch();
+  
   const handleComputerChoice = () => {
+    setSelectedFingers([]); // Reset the selected fingers
     setIsAnimating(true);
     let animationCount = 0;
     const animationDuration = 2000; // 2 seconds
@@ -96,6 +99,7 @@ function ComputerCore() {
       }
     }, intervalTime);
   };
+
 
   return (
     <section className="grid grid-cols-12 gap-x-5 gap-y-5">
@@ -169,6 +173,12 @@ function ComputerCore() {
         onClick={() => {handleComputerChoice();}}
       >
         Start Animation
+      </button>
+      <button
+        className="border border-amber-400 p-4 col-span-3"
+        onClick={() => {dispatch(setComputerFinger(selectedFingers));}}
+      >
+        Start Game
       </button>
     </section>
   );

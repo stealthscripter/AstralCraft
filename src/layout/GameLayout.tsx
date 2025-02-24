@@ -1,18 +1,36 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ComputerSelection from "../components/selection/ComputerSelection";
 import PlayerSelction from "../components/selection/PlayerSelction";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { setStarted } from "../features/GameSlice";
+import {
+  setComputerFinger,
+  setPlayerFinger,
+  setStarted,
+} from "../features/GameSlice";
 import PlayerCore from "../components/core/PlayerCore";
 import ComputerCore from "../components/core/ComputerCore";
+import calculateFinger, { calculateWinner } from "../utils/GameEngine";
+
 interface ComputerSelectionMethods {
   handleComputerChoice: () => void;
 }
 
 function GameLayout() {
+  const [selectedPlayerFingers, setSelectedPlayerFingers] = useState<string[]>(
+    []
+  );
+  const [selectedComputerFingers, setSelectedComputerFingers] = useState<
+    string[]
+  >([]);
   const computerSelectionRef = useRef<ComputerSelectionMethods | null>(null);
 
+  const computerFinger = useSelector(
+    (state: RootState) => state.gameState.computerFinger
+  );
+  const playerFinger = useSelector(
+    (state: RootState) => state.gameState.playerFinger
+  );
   const userPick = useSelector(
     (state: RootState) => state.picksVariable.userPicks
   );
@@ -34,6 +52,15 @@ function GameLayout() {
       }, 3000); // Dispatch after 2 seconds
     }
   };
+
+  const handleStartGame = () => {
+    const calc = calculateFinger(selectedPlayerFingers.length , selectedComputerFingers.length)
+    console.log("calculateFinger finger" , calc );
+
+    const wom = calculateWinner(calc , userPick , computerPick)
+    console.log(wom)
+  };
+
   return (
     <div
       className="p-4 grid grid-cols-7 gap-x-2 min-h-screen border-4 border-red-800 items-start 
@@ -61,19 +88,24 @@ function GameLayout() {
       ) : (
         <>
           <section className="border border-amber-500 col-span-3">
-            <PlayerCore />
+            <PlayerCore
+              selectedFingers={selectedPlayerFingers}
+              setSelectedFingers={setSelectedPlayerFingers}
+            />
           </section>
           <section className="border border-amber-500 flex justify-center">
             <button
               className="border border-amber-700 col-start-3 col-span-3 py-2 mt-10"
-
+              onClick={handleStartGame}
             >
               Start the Game
             </button>
           </section>
           <section className="border border-amber-500 col-span-3">
-            {/* Pass the ref to the ComputerSelection component */}
-            <ComputerCore/>
+            <ComputerCore
+              selectedFingers={selectedComputerFingers}
+              setSelectedFingers={setSelectedComputerFingers}
+            />
           </section>
         </>
       )}

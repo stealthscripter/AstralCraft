@@ -1,7 +1,5 @@
-import { useSelector } from "react-redux";
 import GameHeader from "../components/GameHeader";
 import Hero from "../components/Hero";
-import LearnMore from "../components/LearnMore";
 
 function FutureLayout() {
   return (
