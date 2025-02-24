@@ -1,5 +1,5 @@
-import { u } from "framer-motion/client";
-import { ChangeEvent, useImperativeHandle, useState } from "react";
+
+import React, { ChangeEvent, useImperativeHandle, useState , forwardRef, ForwardedRef} from "react";
 import { useDispatch } from "react-redux";
 import { setComputerFinger } from "../../features/GameSlice";
 
@@ -65,12 +65,16 @@ interface PlayerCoreProps {
   setSelectedFingers: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-function ComputerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
+const ComputerCore = React.forwardRef(
+  (
+    { selectedFingers, setSelectedFingers }: PlayerCoreProps,
+    ref: ForwardedRef<any>
+  ) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [tempFinger, setTempFinger] = useState<string | null>(null);
   const dispatch = useDispatch();
   
-  const handleComputerChoice = () => {
+  const handleComputerStart = () => {
     setSelectedFingers([]); // Reset the selected fingers
     setIsAnimating(true);
     let animationCount = 0;
@@ -99,6 +103,10 @@ function ComputerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) 
       }
     }, intervalTime);
   };
+
+  useImperativeHandle(ref, () => ({
+    handleComputerStart,
+  }));
 
 
   return (
@@ -170,7 +178,7 @@ function ComputerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) 
 
       <button
         className="border border-amber-400 p-4 col-span-3"
-        onClick={() => {handleComputerChoice();}}
+        onClick={handleComputerStart}
       >
         Start Animation
       </button>
@@ -183,5 +191,6 @@ function ComputerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) 
     </section>
   );
 }
+);
 
 export default ComputerCore;

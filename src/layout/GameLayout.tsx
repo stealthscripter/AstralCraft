@@ -15,6 +15,9 @@ import calculateFinger, { calculateWinner } from "../utils/GameEngine";
 interface ComputerSelectionMethods {
   handleComputerChoice: () => void;
 }
+interface ComputerCoreMethods {
+  handleComputerStart: () => void;
+}
 
 function GameLayout() {
   const [selectedPlayerFingers, setSelectedPlayerFingers] = useState<string[]>(
@@ -23,7 +26,10 @@ function GameLayout() {
   const [selectedComputerFingers, setSelectedComputerFingers] = useState<
     string[]
   >([]);
+  
+  // Refs
   const computerSelectionRef = useRef<ComputerSelectionMethods | null>(null);
+  const computerCoreRef = useRef<ComputerCoreMethods | null>(null);
 
   const computerFinger = useSelector(
     (state: RootState) => state.gameState.computerFinger
@@ -54,11 +60,15 @@ function GameLayout() {
   };
 
   const handleStartGame = () => {
-    const calc = calculateFinger(selectedPlayerFingers.length , selectedComputerFingers.length)
-    console.log("calculateFinger finger" , calc );
+    // const calc = calculateFinger(selectedPlayerFingers.length , selectedComputerFingers.length)
+    // console.log("calculateFinger finger" , calc );
 
-    const wom = calculateWinner(calc , userPick , computerPick)
-    console.log(wom)
+    // const wom = calculateWinner(calc , userPick , computerPick)
+    // console.log(wom)
+
+    if (computerCoreRef.current) {
+      computerCoreRef.current.handleComputerStart(); // Call the child function
+    }
   };
 
   return (
@@ -103,6 +113,7 @@ function GameLayout() {
           </section>
           <section className="border border-amber-500 col-span-3">
             <ComputerCore
+              ref={computerCoreRef}
               selectedFingers={selectedComputerFingers}
               setSelectedFingers={setSelectedComputerFingers}
             />
