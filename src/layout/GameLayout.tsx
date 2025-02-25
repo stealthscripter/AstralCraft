@@ -31,6 +31,7 @@ function GameLayout() {
   const [isProcessing, setIsProcessing] = useState(false); // New state for loading
   const [isThrowing, setIsThrowing] = useState(false); // New state for loading
   const [history, setHistory] = useState<string[]>([]);
+  const [currentWinner, setCurrentWinner] = useState<string>("");
   // Refs
   const computerSelectionRef = useRef<ComputerSelectionMethods | null>(null);
   const computerCoreRef = useRef<ComputerCoreMethods | null>(null);
@@ -66,20 +67,27 @@ function GameLayout() {
   };
 
   const handleStartGame = () => {
+    setSelectedPlayerFingers([])
     setIsThrowing(true); // Set loading state to true
     if (computerCoreRef.current) {
       computerCoreRef.current.handleComputerStart(); // Call the child function
       setTimeout(() => {
         setIsThrowing(false); // Set loading state to false after computer choice is made
-
-        const calc = calculateFinger(
-          selectedPlayerFingers.length,
-          selectedComputerFingers.length
-        );
-        const winner = calculateWinner(calc, userPick, computerPick);
-        console.log("winner", winner);
-        setHistory((prev) => [...prev, winner]);
+        try {
+          const calc = calculateFinger(
+            selectedPlayerFingers.length,
+            selectedComputerFingers.length
+          );
+          const winner = calculateWinner(calc, userPick, computerPick);
+          setCurrentWinner(winner);
+          console.log("winner", winner);
+          setHistory((prev) => [...prev, winner]);
+        } catch (error) {
+          console.error("Error calculating winner:", error);
+        }
       }, 3000); // Dispatch after 3 seconds
+    } else {
+      console.error("ComputerCore ref is null");
     }
   };
 
@@ -98,7 +106,7 @@ function GameLayout() {
             </h1>
           </section>
           <section className="col-span-3">
-            <PlayerSelction />
+            <PlayerSelction isProcessing={isProcessing} />
           </section>
           <section className="flex justify-center">
             <button
@@ -128,6 +136,10 @@ function GameLayout() {
               className="text-sm border border-amber-600 px-4 py-2 cursor-pointer"
               onClick={() => {
                 dispatch(setStarted(false));
+                dispatch(resetPicks());
+                setHistory([]);
+                setSelectedComputerFingers([]);
+                setSelectedPlayerFingers([]);
               }}
             >
               Set Variable Again
@@ -135,6 +147,7 @@ function GameLayout() {
           </section>
           <section className="col-span-3">
             <PlayerCore
+              isThrowing={isThrowing}
               selectedFingers={selectedPlayerFingers}
               setSelectedFingers={setSelectedPlayerFingers}
             />
@@ -145,17 +158,14 @@ function GameLayout() {
                 isThrowing ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleStartGame}
-              disabled={isProcessing} // Disable button when processing
+              disabled={isThrowing} // Disable button when throwing
             >
-              {isThrowing ? "Throwing..." : "Start Game"}{" "}
-              {/* Show loading text */}
+              {isThrowing
+                ? "Throwing..."
+                : history.length > 0
+                ? "Play Again"
+                : "Start Game"}
             </button>
-            <div className="mt-10">
-              <h1 className="text-sm">Game History</h1>
-              {history.map((item, index) => (
-                <p key={index}>{item}</p>
-              ))}
-            </div>
           </section>
           <section className="col-span-3">
             <ComputerCore
@@ -164,6 +174,12 @@ function GameLayout() {
               setSelectedFingers={setSelectedComputerFingers}
             />
           </section>
+          {history.length &&
+          <section className="border border-amber-600 col-span-8">
+            <h1 className="text-center my-2">{isThrowing ? "" : currentWinner}</h1>
+            <h1 className="text-center text-xl">Round {history.length}</h1>
+          </section>
+}
         </>
       )}
     </div>

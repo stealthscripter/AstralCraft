@@ -64,9 +64,10 @@ const rightFingers = [
 interface PlayerCoreProps {
   selectedFingers: string[];
   setSelectedFingers: React.Dispatch<React.SetStateAction<string[]>>;
+  isThrowing: boolean;
 }
 
-function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
+function PlayerCore({ selectedFingers, setSelectedFingers , isThrowing }: PlayerCoreProps) {
   const dispatch = useDispatch();
   const userPick = useSelector(
     (state: RootState) => state.picksVariable.userPicks
@@ -109,6 +110,7 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
                   value={finger.id}
                   className="peer hidden"
                   onChange={handleCheckbox}
+                  disabled={isThrowing}
                 />
                 <label
                   htmlFor={finger.id}
@@ -142,6 +144,7 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
                   value={finger.id}
                   className="peer hidden"
                   onChange={handleCheckbox}
+                  disabled={isThrowing}
                 />
                 <label
                   htmlFor={finger.id}
