@@ -9,6 +9,8 @@ interface GameState {
     started: boolean;
     playerFinger: string[];
     computerFinger: string[];
+    computerScore: number,
+    playerScore: number
 }
 
 const initialState: GameState = {
@@ -18,7 +20,9 @@ const initialState: GameState = {
     playNow: false,
     started: false,
     computerFinger: [],
-    playerFinger: []
+    playerFinger: [],
+    playerScore: 0,
+    computerScore: 0,
 };
 
 const GameSlice = createSlice({
@@ -51,11 +55,17 @@ const GameSlice = createSlice({
         },
         setHistory: (state, action: PayloadAction<string[]>) => {
             state.history = [...state.history, ...action.payload];
+        },
+        setComputerScore: (state, action: PayloadAction<number>) => {
+            state.computerScore += action.payload
+        },
+        setPlayerScore: (state, action: PayloadAction<number>) => {
+            state.playerScore += action.payload
         }
         
     }
 });
 
-export const { addWinner, resetGame, setWhoStart , setPlayNow , setStarted , setPlayerFinger , setComputerFinger , setHistory } = GameSlice.actions;
+export const { addWinner, resetGame, setWhoStart , setPlayNow , setStarted , setPlayerFinger , setComputerFinger , setHistory , setPlayerScore , setComputerScore } = GameSlice.actions;
 
 export default GameSlice.reducer;

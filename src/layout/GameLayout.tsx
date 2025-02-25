@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import {
   setComputerFinger,
+  setComputerScore,
   setPlayerFinger,
+  setPlayerScore,
   setStarted,
   setWhoStart,
 } from "../features/GameSlice";
@@ -32,6 +34,8 @@ function GameLayout() {
   const [isThrowing, setIsThrowing] = useState(false); // New state for loading
   const [history, setHistory] = useState<string[]>([]);
   const [currentWinner, setCurrentWinner] = useState<string>("");
+  const [computerScore , setComputerScore] = useState<Number>(0)
+  const [playerScore , setPlayerScore] = useState<Number>(0)
   // Refs
   const computerSelectionRef = useRef<ComputerSelectionMethods | null>(null);
   const computerCoreRef = useRef<ComputerCoreMethods | null>(null);
@@ -48,6 +52,7 @@ function GameLayout() {
   const computerPick = useSelector(
     (state: RootState) => state.picksVariable.computerPicks
   );
+  
   const isStarted = useSelector((state: RootState) => state.gameState.started);
   const dispatch = useDispatch();
 
@@ -67,7 +72,6 @@ function GameLayout() {
   };
 
   const handleStartGame = () => {
-    setSelectedPlayerFingers([])
     setIsThrowing(true); // Set loading state to true
     if (computerCoreRef.current) {
       computerCoreRef.current.handleComputerStart(); // Call the child function
@@ -80,8 +84,8 @@ function GameLayout() {
           );
           const winner = calculateWinner(calc, userPick, computerPick);
           setCurrentWinner(winner);
-          console.log("winner", winner);
           setHistory((prev) => [...prev, winner]);
+          console.log(currentWinner)
         } catch (error) {
           console.error("Error calculating winner:", error);
         }
@@ -166,6 +170,14 @@ function GameLayout() {
                 ? "Play Again"
                 : "Start Game"}
             </button>
+            {history.length  &&
+
+              <div className="border border-amber-500 mt-5 w-3/4 flex justify-between items-center">
+                <span className="text-2xl">{}</span>
+                <span className="text-2xl">-</span>
+                <span className="text-2xl">{}</span>
+            </div>
+            }
           </section>
           <section className="col-span-3">
             <ComputerCore
@@ -174,12 +186,23 @@ function GameLayout() {
               setSelectedFingers={setSelectedComputerFingers}
             />
           </section>
-          {history.length &&
-          <section className="border border-amber-600 col-span-8">
-            <h1 className="text-center my-2">{isThrowing ? "" : currentWinner}</h1>
-            <h1 className="text-center text-xl">Round {history.length}</h1>
-          </section>
-}
+          {history.length && (
+            <section className="col-span-8 flex justify-evenly mt-10">
+              <div className="">
+                you throw {selectedPlayerFingers.length} fingers
+              </div>
+              <div>
+                <h1 className="text-center my-2">
+                  {isThrowing ? "" : currentWinner}
+                </h1>
+                <h1 className="text-center text-xl">Round {history.length}</h1>
+              </div>
+              <div className="">
+                computer throw {selectedComputerFingers.length} fingers 
+                
+              </div>
+            </section>
+          )}
         </>
       )}
     </div>
