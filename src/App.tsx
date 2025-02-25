@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      {playNow ? <GameLayout /> : <FutureLayout />}
+      {!playNow ? <GameLayout /> : <FutureLayout />}
     </>
   );
 }

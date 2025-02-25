@@ -54,13 +54,13 @@ const PlayerSelection: React.FC<PlayerSelectionProps> = ({ isProcessing }) => {
   return (
     <section className="grid grid-cols-12 gap-x-5 gap-y-5">
       {/* Player Title */}
-      <section className="col-span-12 py-5 flex justify-center">
-        <h1 className="text-xl">Player 1 | You</h1>
+      <section className="col-span-12 md:py-5 pt-10 flex justify-center">
+        <h1 className="md:text-xl text-sm">Player 1 | You</h1>
       </section>
 
       {/* Game Variable Header */}
       <section className="mb-6 col-span-12 flex flex-col space-y-2 text-center">
-        <h1 className="text-xl">Game Variable</h1>
+        <h1 className="md:text-xl text-xs">Game Variable</h1>
       </section>
 
       {/* Grid of Selection Options */}
@@ -78,7 +78,7 @@ const PlayerSelection: React.FC<PlayerSelectionProps> = ({ isProcessing }) => {
             />
             <label
               htmlFor={pick.picks}
-              className={`select-none py-10 cursor-pointer transition-colors duration-200 ease-in-out w-full text-sm tracking-widest peer-checked:bg-red-800 peer-checked:text-white flex items-center justify-center ${
+              className={`select-none py-10 cursor-pointer transition-colors duration-200 ease-in-out w-full md:text-sm text-[0.6rem] tracking-widest peer-checked:bg-red-800 peer-checked:text-white flex items-center justify-center ${
                 !picksVariable.includes(pick.picks) ? "bg-blue-800 text-white" : ""
               }`}
             >
@@ -90,7 +90,7 @@ const PlayerSelection: React.FC<PlayerSelectionProps> = ({ isProcessing }) => {
         {/* Reset Picks Button */}
         {userPick.length >= 1 && (
           <button
-            className="border-1 cursor-pointer py-2 text-base px-10 leading-8"
+            className="border-1 cursor-pointer py-2 md:text-base text-[0.6rem] md:px-10 md:leading-8 leading-5"
             onClick={() => dispatch(resetUserPicks())}
             disabled={isProcessing}
           >
@@ -100,8 +100,8 @@ const PlayerSelection: React.FC<PlayerSelectionProps> = ({ isProcessing }) => {
       </section>
 
       {/* Instruction Text */}
-      <section className="col-start-2 col-span-12 text-sm leading-8">
-        <h1>!You Have to choose at most 2 variable to start game</h1>
+      <section className="col-start-2 col-span-12 md:text-sm md:leading-8 leading-6 text-[0.5rem]">
+        <h1 className="">!You Have to choose at most 2 variable to start game</h1>
       </section>
     </section>
   );

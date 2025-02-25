@@ -7,7 +7,7 @@ function AppLayout() {
   return (
     <div className="border-3 border-amber-500 min-h-screen p-10 grid grid-cols-2 gap-x-5">
         <div className="border border-red-800">
-            <PlayerSelction />
+            {/* <PlayerSelction /> */}
         </div>
         <div className="border border-red-800">
           <ComputerSelection />

@@ -97,14 +97,14 @@ function GameLayout() {
 
   return (
     <div
-      className="p-4 grid grid-cols-7 gap-x-2 min-h-screen items-start 
+      className="p-4 md:grid md:grid-cols-7 gap-x-2 min-h-screen items-start 
      font-2P bg-[url(src/assets/backgrounds/stacked-steps-haikei.svg)] bg-slate-900 bg-blend-difference"
       style={{ backgroundRepeat: "no-repeat", backgroundSize: "cover" }}
     >
       {!isStarted ? (
         <>
           <section className="col-span-7 ">
-            <h1 className="text-sm text-center">
+            <h1 className="md:text-sm text-[0.6rem] text-center">
               red box variable you choose and blue box is belong to computer (
               its not matrix )
             </h1>
@@ -114,7 +114,7 @@ function GameLayout() {
           </section>
           <section className="flex justify-center">
             <button
-              className={`border border-amber-700 col-start-3 col-span-3 py-3 cursor-pointer mt-10 px-4 ${
+              className={`border border-amber-700 col-start-3 col-span-3 md:py-3 md:text-base text-[0.7rem] px-6 py-3 cursor-pointer md:mt-10 my-8 md:px-4 ${
                 isProcessing ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleReadyToPlay}
@@ -158,7 +158,7 @@ function GameLayout() {
           </section>
           <section className="flex justify-center items-center flex-col">
             <button
-              className={`border border-amber-700 col-start-3 col-span-3 py-3 cursor-pointer mt-10 px-4 ${
+              className={`border border-amber-700 col-start-3 col-span-3 md:py-3 cursor-pointer md:mt-10 md:px-4 ${
                 isThrowing ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleStartGame}
