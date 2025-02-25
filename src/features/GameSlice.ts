@@ -40,18 +40,22 @@ const GameSlice = createSlice({
         setPlayNow: (state, action: PayloadAction<boolean>) => {
             state.playNow = action.payload;
         },
-        setStarted: (state) => {
-            state.started = true
+        setStarted: (state , action: PayloadAction<boolean>) => {
+            state.started = action.payload
         },
         setPlayerFinger: (state, action: PayloadAction<string[]>) => {
             state.playerFinger = action.payload;
         },
         setComputerFinger: (state, action: PayloadAction<string[]>) => {
             state.computerFinger = action.payload;
+        },
+        setHistory: (state, action: PayloadAction<string[]>) => {
+            state.history = [...state.history, ...action.payload];
         }
+        
     }
 });
 
-export const { addWinner, resetGame, setWhoStart , setPlayNow , setStarted , setPlayerFinger , setComputerFinger } = GameSlice.actions;
+export const { addWinner, resetGame, setWhoStart , setPlayNow , setStarted , setPlayerFinger , setComputerFinger , setHistory } = GameSlice.actions;
 
 export default GameSlice.reducer;

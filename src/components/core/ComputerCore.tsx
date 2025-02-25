@@ -1,7 +1,8 @@
 
 import React, { ChangeEvent, useImperativeHandle, useState , forwardRef, ForwardedRef} from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setComputerFinger } from "../../features/GameSlice";
+import { RootState } from "../../store";
 
 const allFingers = [
   "lc-finger-1",
@@ -65,6 +66,7 @@ interface PlayerCoreProps {
   setSelectedFingers: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
+
 const ComputerCore = React.forwardRef(
   (
     { selectedFingers, setSelectedFingers }: PlayerCoreProps,
@@ -73,7 +75,9 @@ const ComputerCore = React.forwardRef(
   const [isAnimating, setIsAnimating] = useState(false);
   const [tempFinger, setTempFinger] = useState<string | null>(null);
   const dispatch = useDispatch();
-  
+  const computerPick = useSelector(
+    (state: RootState) => state.picksVariable.computerPicks
+  );
   const handleComputerStart = () => {
     setSelectedFingers([]); // Reset the selected fingers
     setIsAnimating(true);
@@ -174,6 +178,16 @@ const ComputerCore = React.forwardRef(
             <div className="bg-yellow-100 col-span-5 z-20 me-10"></div>
           </div>
         </section>
+      </section>
+      <section className="col-span-12 flex justify-center flex-col items-center space-y-1">
+        <div className="flex space-x-10">
+          {computerPick.map((pick, index) => (
+            <span key={index} className="text-xl">
+              {pick} {index < computerPick.length - 1 ? "and" : ""}
+            </span>
+          ))}
+        </div>
+        {/* <h1 className="text-xs tracking-widest">Choosed Variable</h1> */}
       </section>
     </section>
   );

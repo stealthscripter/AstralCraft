@@ -71,10 +71,6 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
   const userPick = useSelector(
     (state: RootState) => state.picksVariable.userPicks
   );
-  const computerPick = useSelector(
-    (state: RootState) => state.picksVariable.computerPicks
-  );
-
   function handleCheckbox(e: ChangeEvent<HTMLInputElement>) {
     const { value, checked } = e.target;
     setSelectedFingers((prev) =>
@@ -88,7 +84,7 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
   }
   return (
     <section className="grid grid-cols-12 gap-x-5 gap-y-5">
-      <section className="py-5 col-span-12 flex justify-center">
+      <section className="py-5 col-span-12 flex justify-center flex-col items-center space-y-2">
         <h1>How Many Fingers do you want to throw? </h1>
       </section>
       <section className="py-5 h-96 col-span-12 grid grid-cols-2 gap-x-12 px-16">
@@ -135,7 +131,9 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
                 className={`row-span-4 rounded-t-4xl ${
                   finger.styles
                 } w-full relative transition-colors duration-300 ${
-                  selectedFingers.includes(finger.id) ? "bg-red-800" : "bg-yellow-100"
+                  selectedFingers.includes(finger.id)
+                    ? "bg-red-800"
+                    : "bg-yellow-100"
                 }`}
               >
                 <input
@@ -155,7 +153,16 @@ function PlayerCore({ selectedFingers, setSelectedFingers }: PlayerCoreProps) {
           </div>
         </section>
       </section>
-
+      <section className="col-span-12 flex justify-center flex-col items-center space-y-1">
+        <div className="flex space-x-10">
+          {userPick.map((pick, index) => (
+            <span key={index} className="text-xl">
+              {pick} {index < userPick.length - 1 ? "and" : ""}
+            </span>
+          ))}
+        </div>
+        {/* <h1 className="text-xs tracking-widest">Choosed Variable</h1> */}
+      </section>
     </section>
   );
 }
