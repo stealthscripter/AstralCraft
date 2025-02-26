@@ -76,7 +76,7 @@ const ComputerSelection = forwardRef((props, ref) => {
               onClick={(e) => e.preventDefault()}
               className={`select-none py-10 cursor-pointer transition-colors duration-200 ease-in-out w-full
                peer-checked:bg-blue-800 peer-checked:text-white flex items-center justify-center ${
-                 !availablePicks.includes(pick.picks) ? "bg-red-800 text-white" : ""
+                 !availablePicks.includes(pick.picks) ? "border border-red-800 text-red-800" : ""
                }`}
             >
               {pick.picks}

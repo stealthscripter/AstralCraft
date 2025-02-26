@@ -100,7 +100,7 @@ const PlayerSelection: React.FC<PlayerSelectionProps> = ({ isProcessing }) => {
       </section>
 
       {/* Instruction Text */}
-      <section className="col-start-2 col-span-12 md:text-sm md:leading-8 leading-6 text-[0.5rem]">
+      <section className={`col-start-2 col-span-12 md:text-sm md:leading-8 leading-6 text-[0.5rem]`}>
         <h1 className="">!You Have to choose at most 2 variable to start game</h1>
       </section>
     </section>

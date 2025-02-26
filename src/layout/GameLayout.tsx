@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ComputerSelection from "../components/selection/ComputerSelection";
 import PlayerSelction from "../components/selection/PlayerSelction";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
+import GameEngine from "../utils/GameEngine";
 import {
   setComputerFinger,
   setComputerScore,
@@ -13,12 +14,12 @@ import {
 } from "../features/GameSlice";
 import PlayerCore from "../components/core/PlayerCore";
 import ComputerCore from "../components/core/ComputerCore";
-import calculateFinger, { calculateWinner } from "../utils/GameEngine";
 import { resetPicks } from "../features/PickSlice";
 
 interface ComputerSelectionMethods {
   handleComputerChoice: () => void;
 }
+
 interface ComputerCoreMethods {
   handleComputerStart: () => void;
 }
@@ -34,8 +35,11 @@ function GameLayout() {
   const [isThrowing, setIsThrowing] = useState(false); // New state for loading
   const [history, setHistory] = useState<string[]>([]);
   const [currentWinner, setCurrentWinner] = useState<string>("");
-  const [computerScore , setComputerScore] = useState<Number>(0)
-  const [playerScore , setPlayerScore] = useState<Number>(0)
+  const [computerScore, setComputerScore] = useState<Number>(0);
+  const [playerScore, setPlayerScore] = useState<Number>(0);
+  const [winnerFinger, setWinnerFinger] = useState<string | null>("");
+  const [errors, setErrors] = useState<string>(""); // State for errors
+
   // Refs
   const computerSelectionRef = useRef<ComputerSelectionMethods | null>(null);
   const computerCoreRef = useRef<ComputerCoreMethods | null>(null);
@@ -52,13 +56,16 @@ function GameLayout() {
   const computerPick = useSelector(
     (state: RootState) => state.picksVariable.computerPicks
   );
-  
   const isStarted = useSelector((state: RootState) => state.gameState.started);
   const dispatch = useDispatch();
 
   const handleReadyToPlay = () => {
     if (userPick.length < 2) {
-      console.log("not eligible");
+      setErrors("You Have to choose at most 2 variable to start game");
+      // Clear the error after 3 seconds
+      setTimeout(() => {
+        setErrors("");
+      }, 3000);
       return;
     }
     setIsProcessing(true); // Set loading state to true
@@ -78,14 +85,20 @@ function GameLayout() {
       setTimeout(() => {
         setIsThrowing(false); // Set loading state to false after computer choice is made
         try {
-          const calc = calculateFinger(
+          const calc = GameEngine.calculateFinger(
             selectedPlayerFingers.length,
             selectedComputerFingers.length
           );
-          const winner = calculateWinner(calc, userPick, computerPick);
+          const winner = GameEngine.calculateWinner(calc, userPick, computerPick);
           setCurrentWinner(winner);
           setHistory((prev) => [...prev, winner]);
-          console.log(currentWinner)
+          const scores = GameEngine.getScores();
+          console.log(
+            `Player Score: ${scores.playerScore}, Computer Score: ${scores.computerScore}`
+          );
+          setComputerScore(scores.computerScore);
+          setPlayerScore(scores.playerScore);
+          setWinnerFinger(scores.winnerFinger);
         } catch (error) {
           console.error("Error calculating winner:", error);
         }
@@ -112,7 +125,7 @@ function GameLayout() {
           <section className="col-span-3">
             <PlayerSelction isProcessing={isProcessing} />
           </section>
-          <section className="flex justify-center">
+          <section className="flex justify-center flex-col">
             <button
               className={`border border-amber-700 col-start-3 col-span-3 md:py-3 md:text-base text-[0.7rem] px-6 py-3 cursor-pointer md:mt-10 my-8 md:px-4 ${
                 isProcessing ? "opacity-50 cursor-not-allowed" : ""
@@ -123,6 +136,12 @@ function GameLayout() {
               {isProcessing ? "Processing..." : "Ready To Play"}{" "}
               {/* Show loading text */}
             </button>
+            {/* Conditionally render the error message */}
+            {errors && (
+              <p className="text-[0.8rem] text-red-800 mt-2">
+                {errors}
+              </p>
+            )}
           </section>
           <section className="col-span-3">
             {/* Pass the ref to the ComputerSelection component */}
@@ -130,6 +149,7 @@ function GameLayout() {
           </section>
         </>
       ) : (
+        // Rest of the code remains unchanged
         <>
           <section className="col-span-7">
             <h1 className="text-sm text-center">
@@ -137,13 +157,16 @@ function GameLayout() {
               toggle it{" "}
             </h1>
             <button
-              className="text-sm border border-amber-600 px-4 py-2 cursor-pointer"
+              disabled={isThrowing}
+              className="text-sm border border-amber-600 px-4 py-2 cursor-pointer hover:bg-amber-800 hover:text-white duration-500"
               onClick={() => {
                 dispatch(setStarted(false));
                 dispatch(resetPicks());
                 setHistory([]);
                 setSelectedComputerFingers([]);
                 setSelectedPlayerFingers([]);
+                setPlayerScore(0);
+                setComputerScore(0);
               }}
             >
               Set Variable Again
@@ -158,7 +181,7 @@ function GameLayout() {
           </section>
           <section className="flex justify-center items-center flex-col">
             <button
-              className={`border border-amber-700 col-start-3 col-span-3 md:py-3 cursor-pointer md:mt-10 md:px-4 ${
+              className={`border border-amber-700 hover:bg-amber-800 hover:text-white duration-500 col-start-3 col-span-3 md:py-3 cursor-pointer md:mt-10 md:px-4 ${
                 isThrowing ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleStartGame}
@@ -170,14 +193,13 @@ function GameLayout() {
                 ? "Play Again"
                 : "Start Game"}
             </button>
-            {history.length  &&
-
-              <div className="border border-amber-500 mt-5 w-3/4 flex justify-between items-center">
-                <span className="text-2xl">{}</span>
+            {history.length >= 1 && (
+              <div className="mt-10 w-3/4 flex justify-between items-center">
+                <span className="text-2xl">{String(playerScore)}</span>
                 <span className="text-2xl">-</span>
-                <span className="text-2xl">{}</span>
-            </div>
-            }
+                <span className="text-2xl">{String(computerScore)}</span>
+              </div>
+            )}
           </section>
           <section className="col-span-3">
             <ComputerCore
@@ -186,7 +208,7 @@ function GameLayout() {
               setSelectedFingers={setSelectedComputerFingers}
             />
           </section>
-          {history.length && (
+          {history.length >= 1 && (
             <section className="col-span-8 flex justify-evenly mt-10">
               <div className="">
                 you throw {selectedPlayerFingers.length} fingers
@@ -196,10 +218,12 @@ function GameLayout() {
                   {isThrowing ? "" : currentWinner}
                 </h1>
                 <h1 className="text-center text-xl">Round {history.length}</h1>
+                <p className="text-sm text-center mt-2">
+                  {isThrowing ? "" : winnerFinger}
+                </p>
               </div>
               <div className="">
-                computer throw {selectedComputerFingers.length} fingers 
-                
+                computer throw {selectedComputerFingers.length} fingers
               </div>
             </section>
           )}
